@@ -247,13 +247,15 @@ const Admin = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
+      console.log('Deleting event with ID:', id);
       await api.delete(`/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStatus({ type: 'success', message: 'Event deleted successfully!' });
       fetchData();
     } catch (error) {
-      setStatus({ type: 'error', message: 'Failed to delete event' });
+      console.error('Delete event error:', error);
+      setStatus({ type: 'error', message: `Failed to delete event: ${error.response?.data?.message || error.message}` });
     }
   };
 
@@ -292,13 +294,15 @@ const Admin = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
+      console.log('Deleting team member with ID:', id);
       await api.delete(`/team/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStatus({ type: 'success', message: 'Team member deleted successfully!' });
       fetchData();
     } catch (error) {
-      setStatus({ type: 'error', message: 'Failed to delete team member' });
+      console.error('Delete team member error:', error);
+      setStatus({ type: 'error', message: `Failed to delete team member: ${error.response?.data?.message || error.message}` });
     }
   };
 
@@ -653,13 +657,15 @@ const Admin = () => {
 
     try {
       const token = localStorage.getItem('adminToken');
+      console.log('Deleting faculty member with ID:', id);
       await api.delete(`/faculty/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStatus({ type: 'success', message: 'Faculty member deleted successfully!' });
       fetchData();
     } catch (error) {
-      setStatus({ type: 'error', message: 'Failed to delete faculty member' });
+      console.error('Delete faculty member error:', error);
+      setStatus({ type: 'error', message: `Failed to delete faculty member: ${error.response?.data?.message || error.message}` });
     }
   };
 
@@ -1478,7 +1484,7 @@ const Admin = () => {
                     currentImage={newGalleryItem.imageUrl}
                     onImageChange={(url) => setNewGalleryItem({ ...newGalleryItem, imageUrl: url })}
                     label="Gallery Image"
-                    required
+                    required={!editingGallery}
                   />
 
                   <div>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const MobileMenu = ({ isOpen, onClose, navItems }) => {
+const MobileMenu = ({ isOpen, onClose, navItems, onNavigate }) => {
   useEffect(() => {
     // Prevent body scroll when menu is open
     if (isOpen) {
@@ -17,8 +17,13 @@ const MobileMenu = ({ isOpen, onClose, navItems }) => {
     };
   }, [isOpen]);
 
-  const handleLinkClick = () => {
-    onClose();
+  const handleItemClick = (item) => {
+    if (onNavigate && (item.type === 'scroll' || item.type === 'link')) {
+      onNavigate(item);
+    } else {
+      // Fallback for items without navigation handler (like admin)
+      onClose();
+    }
   };
 
   const menuVariants = {
@@ -125,7 +130,7 @@ const MobileMenu = ({ isOpen, onClose, navItems }) => {
                     {item.isAdmin ? (
                       <Link
                         to={item.path}
-                        onClick={handleLinkClick}
+                        onClick={() => handleItemClick(item)}
                         className="block px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 bg-gradient-to-r from-neon-magenta/20 to-neon-cyan/20 border border-neon-magenta text-neon-magenta hover:bg-gradient-to-r hover:from-neon-magenta hover:to-neon-cyan hover:text-black"
                       >
                         <span className="flex items-center gap-3">
@@ -134,16 +139,15 @@ const MobileMenu = ({ isOpen, onClose, navItems }) => {
                         </span>
                       </Link>
                     ) : (
-                      <Link
-                        to={item.path}
-                        onClick={handleLinkClick}
-                        className="block px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 text-white hover:bg-white hover:bg-opacity-10 hover:text-neon-cyan"
+                      <button
+                        onClick={() => handleItemClick(item)}
+                        className="block w-full text-left px-4 py-3 rounded-lg text-lg font-medium transition-all duration-300 text-white hover:bg-white hover:bg-opacity-10 hover:text-neon-cyan bg-transparent border-none"
                       >
                         <span className="flex items-center gap-3">
                           {item.icon && <span>{item.icon}</span>}
                           {item.label}
                         </span>
-                      </Link>
+                      </button>
                     )}
                   </motion.li>
                 ))}

@@ -57,69 +57,56 @@ const ToastNotification = () => {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="toast-notification fixed top-20 left-1/2 transform -translate-x-1/2 z-50 max-w-md w-full mx-4"
         >
-          <div className="bg-black bg-opacity-95 backdrop-blur-lg border-2 border-neon-cyan rounded-xl overflow-hidden shadow-2xl shadow-neon-cyan/20">
+          <div className="bg-black bg-opacity-95 backdrop-blur-lg border-2 border-neon-cyan rounded-xl overflow-hidden shadow-2xl shadow-neon-cyan/20 h-96 flex flex-col">
             
-            {/* Event Image */}
-            {event.image && (
-              <div className="relative h-32 overflow-hidden">
-                <img 
-                  src={event.image} 
-                  alt={`${event.title} Banner`}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                <div className="absolute bottom-2 left-4 right-4">
-                  <div className="toast-event-date text-neon-magenta font-medium text-sm">
-                    {event.date}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Content Container */}
-            <div className="p-4">
-              {/* Header */}
-              <div className="toast-header flex justify-between items-center mb-3">
-                <h4 className="toast-title text-neon-cyan font-orbitron font-bold text-lg">
+            {/* Event Image - Takes 3/4 of the space */}
+            <div className="relative h-3/4 overflow-hidden">
+              <img 
+                src={event.image || '/api/placeholder/400/300'} 
+                alt={`${event.title} Banner`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.src = '/api/placeholder/400/300';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+              
+              {/* Close button on image */}
+              <button
+                onClick={closeToast}
+                className="absolute top-3 right-3 w-8 h-8 bg-red-500 bg-opacity-20 border border-red-500 text-red-400 rounded-full flex items-center justify-center text-lg font-bold hover:bg-red-500 hover:text-white transition-all duration-300 backdrop-blur-sm"
+              >
+                ×
+              </button>
+              
+              {/* Event badge on image */}
+              <div className="absolute top-3 left-3">
+                <span className="text-neon-cyan text-xs font-medium bg-neon-cyan/20 backdrop-blur-sm px-2 py-1 rounded-full border border-neon-cyan/50">
                   🎉 Upcoming Event
-                </h4>
-                <button
-                  onClick={closeToast}
-                  className="toast-close w-8 h-8 bg-red-500 bg-opacity-20 border border-red-500 text-red-400 rounded-full flex items-center justify-center text-lg font-bold hover:bg-red-500 hover:text-white transition-all duration-300"
-                >
-                  ×
-                </button>
+                </span>
               </div>
+            </div>
 
-              {/* Event Content */}
-              <div className="space-y-2">
-                {!event.image && (
-                  <div className="toast-event-date text-neon-magenta font-medium text-sm">
-                    {event.date}
-                  </div>
-                )}
-                
-                <div className="toast-event-title text-white font-bold text-lg">
+            {/* Content - Takes 1/4 of the space */}
+            <div className="h-1/4 p-4 flex flex-col justify-between">
+              <div>
+                <h4 className="text-lg font-orbitron font-bold text-white mb-1 line-clamp-1">
                   {event.title}
+                </h4>
+                <div className="flex items-center justify-between text-xs text-gray-400">
+                  <span className="text-neon-magenta">
+                    {new Date(event.date).toLocaleDateString()}
+                  </span>
+                  {event.time && (
+                    <span>⏰ {event.time}</span>
+                  )}
                 </div>
-                
-                <div className="toast-event-description text-gray-300 text-sm line-clamp-2">
-                  {event.description}
-                </div>
-
-                {/* Event Location and Time */}
-                {(event.location || event.time) && (
-                  <div className="flex justify-between text-xs text-gray-400 mt-2">
-                    {event.time && <span>⏰ {event.time}</span>}
-                    {event.location && <span>📍 {event.location}</span>}
-                  </div>
-                )}
               </div>
-
+              
               {/* CTA Button */}
               <button
                 onClick={scrollToEvents}
-                className="toast-cta w-full mt-4 px-4 py-2 bg-gradient-to-r from-neon-cyan to-neon-magenta text-black font-bold rounded-lg hover:shadow-lg hover:shadow-neon-cyan/30 transition-all duration-300 transform hover:scale-105"
+                className="w-full mt-2 px-3 py-1 bg-gradient-to-r from-neon-cyan to-neon-magenta text-black font-bold rounded-lg hover:shadow-lg hover:shadow-neon-cyan/30 transition-all duration-300 transform hover:scale-105 text-sm"
               >
                 Learn More
               </button>

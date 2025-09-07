@@ -1,17 +1,19 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import MobileMenu from './MobileMenu';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navItems = [
-    { path: '/', label: 'Home', icon: '🏠' },
-    { path: '/events', label: 'Events', icon: '📅' },
-    { path: '/team', label: 'Team', icon: '👥' },
-    { path: '/contact', label: 'Contact', icon: '📧' }
+    { path: '/', label: 'Home', icon: '🏠', type: 'link' },
+    { path: '/events', label: 'Events', icon: '📅', type: 'scroll', section: 'events' },
+    { path: '/team', label: 'Team', icon: '👥', type: 'scroll', section: 'team' },
+    { path: '/contact', label: 'Contact', icon: '📧', type: 'link' }
   ];
 
   useEffect(() => {
@@ -29,6 +31,33 @@ const Navbar = () => {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleNavigation = (item) => {
+    if (item.type === 'scroll' && item.section) {
+      // If we're not on homepage, navigate to homepage first
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation to complete, then scroll
+        setTimeout(() => {
+          scrollToSection(item.section);
+        }, 100);
+      } else {
+        // If we're already on homepage, just scroll
+        scrollToSection(item.section);
+      }
+    } else {
+      // For regular links (Home and Contact)
+      navigate(item.path);
+    }
+    closeMobileMenu();
+  };
+
+  const scrollToSection = (sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   };
 
   return (
@@ -75,9 +104,9 @@ const Navbar = () => {
             <ul className="nav-links hidden lg:flex items-center">
               {navItems.map((item, index) => (
                 <li key={item.path} style={{ margin: '0 24px' }}>
-                  <Link
-                    to={item.path}
-                    className="nav-link relative font-medium transition-all duration-300 text-white hover:text-neon-cyan"
+                  <button
+                    onClick={() => handleNavigation(item)}
+                    className="nav-link relative font-medium transition-all duration-300 text-white hover:text-neon-cyan bg-transparent border-none cursor-pointer"
                     style={{
                       fontSize: '16px',
                       fontWeight: '500',
@@ -85,7 +114,7 @@ const Navbar = () => {
                     }}
                   >
                     {item.label}
-                  </Link>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -110,7 +139,8 @@ const Navbar = () => {
       <MobileMenu 
         isOpen={isMobileMenuOpen} 
         onClose={closeMobileMenu} 
-        navItems={[...navItems, { path: '/admin', label: 'Admin', icon: '🛠️', isAdmin: true }]}
+        navItems={[...navItems, { path: '/admin', label: 'Admin', icon: '🛠️', isAdmin: true, type: 'link' }]}
+        onNavigate={handleNavigation}
       />
     </>
   );

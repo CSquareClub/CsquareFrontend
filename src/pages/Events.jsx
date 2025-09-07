@@ -84,31 +84,53 @@ const Events = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredEvents.map((event, index) => (
                 <motion.div
-                  key={event.id}
+                  key={event._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="card hover:scale-105"
+                  className="bg-gradient-to-br from-gray-900 to-black border border-gray-700 rounded-xl overflow-hidden hover:border-neon-cyan/50 transition-all duration-300 hover:scale-105 group h-96 flex flex-col"
                 >
-                  <div className="text-neon-magenta font-medium mb-3">
-                    {event.date}
+                  {/* Event Image - Takes 3/4 of the space */}
+                  <div className="relative h-3/4 overflow-hidden">
+                    <img
+                      src={event.image || '/api/placeholder/400/300'}
+                      alt={event.title}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      onError={(e) => {
+                        e.target.src = '/api/placeholder/400/300';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    
+                    {/* Category badge on image */}
+                    <div className="absolute top-3 right-3">
+                      <span className="text-green-400 text-xs font-medium bg-green-500/80 backdrop-blur-sm px-2 py-1 rounded-full">
+                        {event.category || event.type}
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="text-xl font-orbitron font-bold text-white mb-4">
-                    {event.title}
-                  </h3>
-                  <p className="text-gray-300 mb-6 leading-relaxed">
-                    {event.description}
-                  </p>
-                  {event.link && (
-                    <a
-                      href={event.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-primary inline-block"
-                    >
-                      {event.linkText || 'Learn More'} →
-                    </a>
-                  )}
+                  
+                  {/* Text Content - Takes 1/4 of the space */}
+                  <div className="h-1/4 p-4 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
+                        {event.title}
+                      </h3>
+                      <div className="flex items-center justify-between text-xs text-gray-400">
+                        <span className="text-neon-magenta">
+                          {new Date(event.date).toLocaleDateString()}
+                        </span>
+                        {event.location && (
+                          <span className="flex items-center">
+                            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                            </svg>
+                            {event.location}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               ))}
             </div>
