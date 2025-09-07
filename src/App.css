@@ -1,0 +1,545 @@
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.loader {
+  width: 80px;
+  height: 80px;
+  border: 3px solid rgba(0, 255, 255, 0.3);
+  border-top: 3px solid #00ffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+/* Responsive loader sizes */
+@media (max-width: 768px) {
+  .loader {
+    width: 60px;
+    height: 60px;
+    border-width: 2px;
+    margin-bottom: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loader {
+    width: 50px;
+    height: 50px;
+    border-width: 2px;
+    margin-bottom: 12px;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-family: 'Orbitron', monospace;
+  color: #00ffff;
+  font-size: 1.2rem;
+  animation: pulse 2s ease infinite;
+  text-align: center;
+  word-break: break-word;
+  line-height: 1.4;
+}
+
+/* Responsive loading text */
+@media (max-width: 768px) {
+  .loading-text {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loading-text {
+    font-size: 0.9rem;
+    padding: 0 15px;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Navbar Styles */
+.nav-link:hover {
+  color: #00ffff !important;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  transform: translateY(-2px);
+}
+
+.admin-button:hover {
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.4), rgba(255, 0, 255, 0.6)) !important;
+  box-shadow: 0 6px 20px rgba(255, 0, 255, 0.4) !important;
+  transform: translateY(-2px);
+}
+
+/* Grid Pattern */
+.grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(0,255,255,0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0,255,255,0.1) 1px, transparent 1px);
+  background-size: 50px 50px;
+  width: 100%;
+  height: 100%;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+/* Line Clamp Utilities */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Gallery Responsive Styles */
+@media (max-width: 768px) {
+  .photo-gallery-container {
+    margin-bottom: 40px !important;
+    min-height: 300px !important;
+  }
+  
+  .gallery-slider-wrapper {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+  
+  .gallery-btn {
+    display: none !important; /* Hide buttons on mobile for touch scroll */
+  }
+  
+  .photo-gallery {
+    border-radius: 15px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    display: flex !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  
+  .photo-gallery::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  .gallery-slide {
+    flex: 0 0 100% !important;
+    scroll-snap-align: start !important;
+    display: block !important;
+  }
+  
+  .gallery-slide.active {
+    display: block !important;
+  }
+  
+  .gallery-image {
+    height: 250px !important;
+    width: 100% !important;
+    border-radius: 12px !important;
+  }
+  
+  .gallery-caption {
+    padding: 20px 15px 15px !important;
+    font-size: 0.95rem !important;
+  }
+  
+  .gallery-dots {
+    margin-top: 20px !important;
+    gap: 12px !important;
+  }
+  
+  .gallery-dot {
+    width: 12px !important;
+    height: 12px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-gallery-container {
+    margin-bottom: 30px !important;
+    min-height: 250px !important;
+  }
+  
+  .gallery-image {
+    height: 200px !important;
+    border-radius: 10px !important;
+  }
+  
+  .gallery-caption {
+    padding: 15px 12px 12px !important;
+    font-size: 0.85rem !important;
+  }
+  
+  .gallery-dots {
+    margin-top: 15px !important;
+    gap: 10px !important;
+  }
+  
+  .gallery-dot {
+    width: 10px !important;
+    height: 10px !important;
+  }
+}
+
+/* Medium device styles for gallery */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .gallery-btn {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 1.5rem !important;
+  }
+  
+  .gallery-image {
+    height: 350px !important;
+  }
+}
+
+/* Events and Teams Sections Responsive Styles */
+@media (max-width: 768px) {
+  /* Events Section */
+  .events-track {
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    gap: 1rem !important;
+  }
+  
+  .events-track::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  .event-card {
+    min-width: 280px !important;
+    scroll-snap-align: start !important;
+    margin-right: 15px !important;
+  }
+  
+  .events-nav-btn {
+    display: none !important; /* Hide navigation buttons on mobile */
+  }
+  
+  /* Team Section */
+  .team-track {
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    gap: 1rem !important;
+  }
+  
+  .team-track::-webkit-scrollbar {
+    display: none !important;
+  }
+  
+  .team-card,
+  .team-member-card {
+    min-width: 250px !important;
+    scroll-snap-align: start !important;
+    margin-right: 15px !important;
+  }
+  
+  .team-nav-btn {
+    display: none !important; /* Hide navigation buttons on mobile */
+  }
+  
+  /* Hide scrollbar for webkit browsers */
+  .events-track::-webkit-scrollbar,
+  .team-track::-webkit-scrollbar {
+    width: 0px !important;
+    height: 0px !important;
+    background: transparent !important;
+  }
+  
+  /* Smooth scrolling for touch devices */
+  .events-track,
+  .team-track {
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .event-card {
+    min-width: 260px !important;
+    margin-right: 12px !important;
+  }
+  
+  .team-card,
+  .team-member-card {
+    min-width: 230px !important;
+    margin-right: 12px !important;
+  }
+  
+  /* Ensure section padding is appropriate for small screens */
+  section {
+    padding: 60px 0 !important;
+  }
+  
+  .container-custom {
+    padding: 0 15px !important;
+  }
+  
+  /* Reduce gaps even more on very small devices */
+  .events-track,
+  .team-track {
+    gap: 0.75rem !important;
+  }
+}
+
+/* Medium devices - tablet styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .event-card {
+    min-width: 320px !important;
+  }
+  
+  .team-card,
+  .team-member-card {
+    min-width: 280px !important;
+  }
+  
+  .events-nav-btn,
+  .team-nav-btn {
+    width: 45px !important;
+    height: 45px !important;
+    font-size: 1.3rem !important;
+  }
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Enhanced scrollbar styles */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #00ffff transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(90deg, #00dddd, #dd00dd);
+}
+
+/* Mobile scroll bar hiding */
+@media (max-width: 768px) {
+  .custom-scrollbar {
+    scrollbar-width: none;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .achievements-section .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .achievements-section .grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .achievements-section .card {
+    padding: 1rem !important;
+  }
+}
+
+/* Hero section responsive improvements */
+@media (max-width: 768px) {
+  .hero-content {
+    gap: 2rem !important;
+    padding: 0 1rem !important;
+  }
+  
+  .hero-left {
+    text-align: center !important;
+  }
+  
+  .hero-right {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    gap: 1.5rem !important;
+    padding: 0 0.75rem !important;
+  }
+}
+
+/* Center alignment for small devices */
+@media (max-width: 768px) {
+  /* General centering for all sections */
+  section {
+    text-align: center !important;
+  }
+  
+  .container-custom {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  
+  /* Hero section centering */
+  .hero-content {
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  
+  .hero-left,
+  .hero-right {
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+  
+  /* Achievements section centering */
+  .achievements-grid,
+  .grid {
+    justify-items: center !important;
+  }
+  
+  .card {
+    text-align: center !important;
+  }
+  
+  /* Events and Teams sections centering */
+  .events-track,
+  .team-track {
+    justify-content: flex-start !important; /* Allow horizontal scroll but start centered */
+  }
+  
+  /* Navigation and headings centering */
+  h1, h2, h3, h4, h5, h6 {
+    text-align: center !important;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    margin: 0 auto !important;
+    display: block !important;
+    width: fit-content !important;
+  }
+  
+  /* Form centering */
+  form {
+    text-align: center !important;
+  }
+  
+  input, textarea, select {
+    margin: 0 auto !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small devices - more aggressive centering */
+  .container-custom {
+    padding: 0 20px !important;
+    text-align: center !important;
+  }
+  
+  /* Ensure all text is centered */
+  .text-left {
+    text-align: center !important;
+  }
+  
+  /* Center navigation elements */
+  .navbar,
+  .nav {
+    justify-content: center !important;
+  }
+  
+  /* Center footer content */
+  footer {
+    text-align: center !important;
+  }
+  
+  footer * {
+    text-align: center !important;
+  }
+  
+  /* Admin panel centering */
+  .admin-tabs,
+  .admin-form {
+    text-align: center !important;
+  }
+  
+  /* Mobile menu centering */
+  .mobile-menu {
+    text-align: center !important;
+  }
+}
