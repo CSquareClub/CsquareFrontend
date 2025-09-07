@@ -178,12 +178,13 @@ const WorkingTerminal = () => {
     ],
     
     join: () => [
-      '🤝 How to Join C-Square Club:',
+      '🔑 How to Join C Square Club',
       '',
-      '1. 📧 Contact us at: csquare@club.com',
-      '2. 💬 Join our Discord: discord.gg/csquare',
-      '3. 🌐 Visit our website events section',
-      '4. 📍 Attend our weekly meetups',
+      '⚡ Go to https://cuintranet.in/',
+      '⚡ Click Co-curricular Club',
+      '⚡ Select C SQUARE – Chandigarh University Club',
+      '⚡ Tap Join as a new member',
+      '⚡ Fill in details → Verify Outlook Email & Phone → ✅ Complete Registration',
       '',
       '🎯 What we offer:',
       '  • Hands-on coding experience',

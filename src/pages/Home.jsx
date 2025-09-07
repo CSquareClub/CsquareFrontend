@@ -18,9 +18,13 @@ const Home = () => {
         </div>
       </section>
       
-  <EventsSectionHorizontal />
+  <div id="events">
+    <EventsSectionHorizontal />
+  </div>
   <FacultyMentorsSection />
-  <TeamSectionHorizontal />
+  <div id="team">
+    <TeamSectionHorizontal />
+  </div>
     </div>
   );
 };
