@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay, Mousewheel } from 'swiper/modules';
 import api from '../utils/api';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/autoplay';
+
 const PhotoGallery = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [galleryImages, setGalleryImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -52,32 +59,9 @@ const PhotoGallery = () => {
     }
   };
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
-  };
-
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
-  };
-
-  // Auto-advance slides every 3.5 seconds (desktop only)
-  useEffect(() => {
-    if (galleryImages.length > 1 && window.innerWidth >= 768) {
-      const interval = setInterval(nextSlide, 3500);
-      return () => clearInterval(interval);
-    }
-  }, [galleryImages.length]);
-
   if (loading) {
     return (
-      <div 
-        className="photo-gallery-container relative"
-        // style={{ minHeight: '500px' }}
-      >
+      <div className="photo-gallery-container relative">
         <div className="flex items-center justify-center h-96">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-neon-cyan"></div>
         </div>
@@ -86,204 +70,81 @@ const PhotoGallery = () => {
   }
 
   return (
-    <div 
-      className="photo-gallery-container relative"
-      // style={{ marginBottom: '80px', minHeight: '500px' }}
-    >
-      <div className="gallery-slider-wrapper relative flex items-center gap-8">
-        {/* Previous Button - Hidden on mobile */}
-        <button
-          onClick={prevSlide}
-          className="gallery-btn hidden md:flex"
-          style={{
-            background: 'rgba(0, 0, 0, 0.8)',
-            border: '2px solid #00ffff',
-            borderRadius: '50%',
-            width: '60px',
-            height: '60px',
-            color: '#00ffff',
-            fontSize: '2rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            backdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10
+    <div className="photo-gallery-container relative">
+      {/* Swiper Gallery */}
+      <div 
+        className="photo-gallery overflow-hidden"
+        style={{
+          borderRadius: '20px',
+          boxShadow: '0 0 30px rgba(0, 255, 255, 0.3)',
+          border: '2px solid transparent',
+          background: 'linear-gradient(45deg, #00ffff, #ff00ff) border-box'
+        }}
+      >
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay, Mousewheel]}
+          loop={true}
+          speed={700}
+          spaceBetween={0}
+          slidesPerView={1}
+          mousewheel={{
+            forceToAxis: true,
+            sensitivity: 1,
+            releaseOnEdges: false,
           }}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          pagination={{
+            clickable: true,
+            dynamicBullets: true,
+            el: '.gallery-pagination',
+          }}
+          navigation={{
+            nextEl: '.gallery-button-next',
+            prevEl: '.gallery-button-prev',
+          }}
+          className="h-64"
+        >
+          {galleryImages.map((image, index) => (
+            <SwiperSlide key={index}>
+              <img
+                src={image.src}
+                alt={image.caption}
+                className="gallery-image w-full h-64 object-cover"
+                style={{
+                  borderRadius: '18px',
+                  transition: 'transform 0.3s ease'
+                }}
+              />
+              <div 
+                className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent p-4 text-white"
+                style={{ borderRadius: '0 0 18px 18px' }}
+              >
+                <h3 className="text-lg font-bold mb-1">{image.title}</h3>
+                <p className="text-sm opacity-90">{image.caption}</p>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        {/* Custom Navigation Arrows */}
+        <button
+          className="gallery-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/80 border-2 border-neon-cyan rounded-full text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all duration-300 z-10 items-center justify-center text-xl font-bold hidden md:flex"
         >
           ‹
         </button>
-
-        {/* Gallery Container */}
-        <div 
-          className="photo-gallery overflow-hidden flex-1 relative"
-          style={{
-            borderRadius: '20px',
-            boxShadow: '0 0 30px rgba(0, 255, 255, 0.3)',
-            border: '2px solid transparent',
-            background: 'linear-gradient(45deg, #00ffff, #ff00ff) border-box'
-          }}
-        >
-          {/* Mobile Touch Scroll Gallery */}
-          <div className="md:hidden flex overflow-x-auto gap-0" style={{
-            scrollSnapType: 'x mandatory',
-            WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none',
-            msOverflowStyle: 'none'
-          }}>
-            {galleryImages.map((image, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-full relative"
-                style={{ scrollSnapAlign: 'start' }}
-              >
-                <img
-                  src={image.src}
-                  alt={image.caption}
-                  className="gallery-image w-full h-64 object-cover"
-                  style={{
-                    borderRadius: '18px',
-                    transition: 'transform 0.3s ease'
-                  }}
-                />
-                <div 
-                  className="gallery-caption absolute bottom-0 left-0 right-0"
-                  style={{
-                    background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.9))',
-                    color: '#ffffff',
-                    padding: '20px 15px 15px',
-                    fontFamily: 'Orbitron, monospace',
-                    fontSize: '0.95rem',
-                    fontWeight: '600',
-                    textShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
-                    borderRadius: '0 0 18px 18px'
-                  }}
-                >
-                  {image.caption}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop Slideshow */}
-          <div className="hidden md:block">
-            {galleryImages.map((image, index) => (
-              <div
-                key={index}
-                className={`gallery-slide relative ${index === currentSlide ? 'active' : ''}`}
-                style={{
-                  display: index === currentSlide ? 'block' : 'none',
-                  animation: index === currentSlide ? 'gallerySlideIn 0.6s ease-in-out' : 'none'
-                }}
-              >
-                <img
-                  src={image.src}
-                  alt={image.caption}
-                  className="gallery-image"
-                  style={{
-                    width: '100%',
-                    height: '400px',
-                    objectFit: 'cover',
-                    borderRadius: '18px',
-                    transition: 'transform 0.3s ease'
-                  }}
-                />
-                <div 
-                  className="gallery-caption absolute bottom-0 left-0 right-0"
-                  style={{
-                    background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.9))',
-                    color: '#ffffff',
-                    padding: '30px 25px 20px',
-                    fontFamily: 'Orbitron, monospace',
-                    fontSize: '1.1rem',
-                    fontWeight: '600',
-                    textShadow: '0 0 10px rgba(0, 255, 255, 0.5)',
-                    borderRadius: '0 0 18px 18px'
-                  }}
-                >
-                  {image.caption}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Next Button - Hidden on mobile */}
         <button
-          onClick={nextSlide}
-          className="gallery-btn hidden md:flex"
-          style={{
-            background: 'rgba(0, 0, 0, 0.8)',
-            border: '2px solid #00ffff',
-            borderRadius: '50%',
-            width: '60px',
-            height: '60px',
-            color: '#00ffff',
-            fontSize: '2rem',
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            transition: 'all 0.3s ease',
-            backdropFilter: 'blur(10px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 10
-          }}
+          className="gallery-button-next absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/80 border-2 border-neon-cyan rounded-full text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all duration-300 z-10 items-center justify-center text-xl font-bold hidden md:flex"
         >
           ›
         </button>
-      </div>
 
-      {/* Gallery Dots - Always visible */}
-      <div 
-        className="gallery-dots flex justify-center gap-4"
-        style={{ marginTop: '30px' }}
-      >
-        {galleryImages.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`gallery-dot ${index === currentSlide ? 'active' : ''}`}
-            style={{
-              width: '15px',
-              height: '15px',
-              borderRadius: '50%',
-              background: index === currentSlide ? '#00ffff' : 'rgba(0, 255, 255, 0.3)',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-              border: index === currentSlide ? '2px solid rgba(255, 255, 255, 0.3)' : '2px solid transparent',
-              transform: index === currentSlide ? 'scale(1.3)' : 'scale(1)',
-              boxShadow: index === currentSlide ? '0 0 15px rgba(0, 255, 255, 0.8)' : 'none'
-            }}
-          />
-        ))}
+        {/* Custom Pagination */}
+        <div className="gallery-pagination flex justify-center mt-4"></div>
       </div>
-
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes gallerySlideIn {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        
-        .photo-gallery::-webkit-scrollbar {
-          display: none;
-        }
-        
-        @media (max-width: 768px) {
-          .photo-gallery {
-            scroll-behavior: smooth;
-          }
-        }
-      `}</style>
     </div>
   );
 };

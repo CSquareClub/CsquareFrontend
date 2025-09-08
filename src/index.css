@@ -413,3 +413,31 @@
     }
   }
 }
+
+/* Custom Swiper Styles */
+.custom-pagination .swiper-pagination-bullet {
+  width: 12px !important;
+  height: 12px !important;
+  background: #6b7280 !important;
+  opacity: 1 !important;
+  transition: all 0.3s ease !important;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  background: #00ffff !important;
+  transform: scale(1.25) !important;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5) !important;
+}
+
+.swiper-button-disabled {
+  opacity: 0.5 !important;
+}
+
+/* Mousewheel scroll indicator */
+.carousel-container:hover .swiper-wrapper {
+  cursor: grab;
+}
+
+.carousel-container .swiper-wrapper:active {
+  cursor: grabbing;
+}
