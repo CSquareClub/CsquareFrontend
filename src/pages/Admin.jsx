@@ -2,16 +2,24 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import api from '../utils/api';
 import ImageUpload from '../components/ImageUpload';
+import { useData } from '../contexts/DataContext';
 
 const Admin = () => {
+  const { 
+    events, 
+    teamMembers, 
+    facultyMembers, 
+    galleryItems, 
+    refreshEvents, 
+    refreshTeam, 
+    refreshFaculty, 
+    refreshGallery 
+  } = useData();
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isVerifying, setIsVerifying] = useState(true); // Add verification state
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const [activeManagement, setActiveManagement] = useState('');
-  const [events, setEvents] = useState([]);
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [galleryItems, setGalleryItems] = useState([]);
-  const [facultyMembers, setFacultyMembers] = useState([]);
   
   // Edit states
   const [editingEvent, setEditingEvent] = useState(null);
@@ -146,7 +154,8 @@ const Admin = () => {
       const { token } = response.data.data;
       localStorage.setItem('adminToken', token);
       setIsAuthenticated(true);
-      fetchData();
+      setIsVerifying(false); // Stop verification screen after successful login
+      // fetchData will be called automatically by useEffect when isAuthenticated changes
       setStatus({ type: 'success', message: 'Login successful!' });
       setCredentials({ username: '', password: '' });
     } catch (error) {
@@ -156,6 +165,11 @@ const Admin = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleManagementClick = (section) => {
+    console.log('Setting active management to:', section);
+    setActiveManagement(section);
   };
 
   const handleLogout = () => {
@@ -180,18 +194,15 @@ const Admin = () => {
 
       console.log('Fetching admin data...');
       
-      const [eventsRes, teamRes, galleryRes, facultyRes] = await Promise.all([
-        api.get('/events'),
-        api.get('/team'),
-        api.get('/gallery'),
-        api.get('/faculty')
+      // Use DataContext refresh functions instead of local state
+      await Promise.all([
+        refreshEvents(),
+        refreshTeam(),
+        refreshGallery(),
+        refreshFaculty()
       ]);
       
       console.log('Data fetched successfully');
-      setEvents(eventsRes.data.data || []);
-      setTeamMembers(teamRes.data.data || []);
-      setGalleryItems(galleryRes.data.data || []);
-      setFacultyMembers(facultyRes.data.data || []);
     } catch (error) {
       console.error('Failed to fetch data:', error);
       
@@ -228,7 +239,7 @@ const Admin = () => {
         linkText: '',
         tags: []
       });
-      fetchData();
+      await refreshEvents(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Add event error:', error.response?.data || error.message);
       setStatus({
@@ -248,13 +259,18 @@ const Admin = () => {
     try {
       const token = localStorage.getItem('adminToken');
       console.log('Deleting event with ID:', id);
-      await api.delete(`/events/${id}`, {
+      console.log('Token:', token ? 'Present' : 'Missing');
+      
+      const response = await api.delete(`/events/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      console.log('Delete response:', response);
       setStatus({ type: 'success', message: 'Event deleted successfully!' });
-      fetchData();
+      await refreshEvents(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Delete event error:', error);
+      console.error('Error response:', error.response);
       setStatus({ type: 'error', message: `Failed to delete event: ${error.response?.data?.message || error.message}` });
     }
   };
@@ -275,7 +291,7 @@ const Admin = () => {
         initials: '',
         photo: ''
       });
-      fetchData();
+      await refreshTeam(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Add team member error:', error.response?.data || error.message);
       setStatus({
@@ -295,13 +311,18 @@ const Admin = () => {
     try {
       const token = localStorage.getItem('adminToken');
       console.log('Deleting team member with ID:', id);
-      await api.delete(`/team/${id}`, {
+      console.log('Token:', token ? 'Present' : 'Missing');
+      
+      const response = await api.delete(`/team/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      console.log('Delete response:', response);
       setStatus({ type: 'success', message: 'Team member deleted successfully!' });
-      fetchData();
+      await refreshTeam(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Delete team member error:', error);
+      console.error('Error response:', error.response);
       setStatus({ type: 'error', message: `Failed to delete team member: ${error.response?.data?.message || error.message}` });
     }
   };
@@ -333,7 +354,7 @@ const Admin = () => {
         imageUrl: '',
         eventId: ''
       });
-      fetchData();
+      refreshGallery(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Add gallery item error:', error);
       console.error('Response data:', error.response?.data);
@@ -362,7 +383,7 @@ const Admin = () => {
         headers: { Authorization: `Bearer ${token}` }
       });
       setStatus({ type: 'success', message: 'Gallery item deleted successfully!' });
-      fetchData();
+      refreshGallery(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       setStatus({ type: 'error', message: 'Failed to delete gallery item' });
     }
@@ -405,7 +426,7 @@ const Admin = () => {
         eventId: ''
       });
       setStatus({ type: 'success', message: 'Gallery item updated successfully!' });
-      fetchData();
+      refreshGallery(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Update gallery item error:', error);
       setStatus({ 
@@ -466,7 +487,7 @@ const Admin = () => {
         linkText: '',
         tags: []
       });
-      fetchData();
+      refreshEvents(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       setStatus({
         type: 'error',
@@ -536,7 +557,7 @@ const Admin = () => {
         skills: [],
         isCore: false
       });
-      fetchData();
+      refreshTeam(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       setStatus({
         type: 'error',
@@ -588,7 +609,7 @@ const Admin = () => {
         experience: '',
         education: ''
       });
-      fetchData();
+      refreshFaculty(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       setStatus({
         type: 'error',
@@ -639,7 +660,7 @@ const Admin = () => {
         experience: '',
         education: ''
       });
-      fetchData();
+      refreshFaculty(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       setStatus({
         type: 'error',
@@ -658,13 +679,18 @@ const Admin = () => {
     try {
       const token = localStorage.getItem('adminToken');
       console.log('Deleting faculty member with ID:', id);
-      await api.delete(`/faculty/${id}`, {
+      console.log('Token:', token ? 'Present' : 'Missing');
+      
+      const response = await api.delete(`/faculty/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      console.log('Delete response:', response);
       setStatus({ type: 'success', message: 'Faculty member deleted successfully!' });
-      fetchData();
+      await refreshFaculty(); // Use DataContext refresh instead of fetchData
     } catch (error) {
       console.error('Delete faculty member error:', error);
+      console.error('Error response:', error.response);
       setStatus({ type: 'error', message: `Failed to delete faculty member: ${error.response?.data?.message || error.message}` });
     }
   };
@@ -797,6 +823,18 @@ const Admin = () => {
           {/* Dashboard Overview */}
           {activeManagement === '' && (
             <div className="space-y-8">
+              {/* Debug Info */}
+              {process.env.NODE_ENV === 'development' && (
+                <div className="bg-gray-800 p-4 rounded-lg text-white">
+                  <h3 className="font-bold mb-2">Debug Info:</h3>
+                  <p>Active Management: "{activeManagement}"</p>
+                  <p>Events Count: {events?.length || 0}</p>
+                  <p>Team Count: {teamMembers?.length || 0}</p>
+                  <p>Faculty Count: {facultyMembers?.length || 0}</p>
+                  <p>Gallery Count: {galleryItems?.length || 0}</p>
+                </div>
+              )}
+              
               {/* Statistics Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Events Card */}
@@ -815,7 +853,7 @@ const Admin = () => {
                     Manage your club events, workshops, and activities
                   </p>
                   <button
-                    onClick={() => setActiveManagement('events')}
+                    onClick={() => handleManagementClick('events')}
                     className="w-full btn-primary py-2 text-sm sm:text-base"
                   >
                     Manage Events
@@ -838,7 +876,7 @@ const Admin = () => {
                     Add and manage your club team members
                   </p>
                   <button
-                    onClick={() => setActiveManagement('team')}
+                    onClick={() => handleManagementClick('team')}
                     className="w-full btn-primary py-2 text-sm sm:text-base"
                   >
                     Manage Team
@@ -861,7 +899,7 @@ const Admin = () => {
                     Manage your club's photo gallery and memories
                   </p>
                   <button
-                    onClick={() => setActiveManagement('gallery')}
+                    onClick={() => handleManagementClick('gallery')}
                     className="w-full btn-primary py-2 text-sm sm:text-base"
                   >
                     Manage Gallery
@@ -884,7 +922,7 @@ const Admin = () => {
                     Manage faculty mentors and advisors
                   </p>
                   <button
-                    onClick={() => setActiveManagement('faculty')}
+                    onClick={() => handleManagementClick('faculty')}
                     className="w-full btn-primary py-2 text-sm sm:text-base"
                   >
                     Manage Faculty
@@ -937,6 +975,7 @@ const Admin = () => {
           {/* Event Management */}
           {activeManagement === 'events' && (
             <div className="space-y-8">
+              {console.log('Rendering events management, events:', events)}
               <h2 className="text-2xl sm:text-3xl font-orbitron font-bold text-white mb-6">
                 📅 Event Management
               </h2>
@@ -1170,7 +1209,12 @@ const Admin = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteEvent(event._id)}
+                          onClick={() => {
+                            console.log('Deleting event:', event);
+                            console.log('Event ID:', event._id);
+                            console.log('Event object keys:', Object.keys(event));
+                            deleteEvent(event._id);
+                          }}
                           className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg transition-colors text-sm"
                         >
                           Delete
@@ -1313,7 +1357,7 @@ const Admin = () => {
                     <label className="block text-white mb-2 font-medium">Skills</label>
                     <input
                       type="text"
-                      value={newMember.skills.join(', ')}
+                      value={(newMember.skills || []).join(', ')}
                       onChange={(e) => setNewMember({ 
                         ...newMember, 
                         skills: e.target.value.split(',').map(s => s.trim()).filter(s => s) 
@@ -1417,7 +1461,12 @@ const Admin = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteTeamMember(member._id)}
+                          onClick={() => {
+                            console.log('Deleting team member:', member);
+                            console.log('Member ID:', member._id);
+                            console.log('Member object keys:', Object.keys(member));
+                            deleteTeamMember(member._id);
+                          }}
                           className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg transition-colors text-sm"
                         >
                           Delete
@@ -1718,7 +1767,7 @@ const Admin = () => {
                     <label className="block text-white mb-2 font-medium">Specialization</label>
                     <input
                       type="text"
-                      value={newFacultyMember.specialization.join(', ')}
+                      value={(newFacultyMember.specialization || []).join(', ')}
                       onChange={(e) => setNewFacultyMember({ 
                         ...newFacultyMember, 
                         specialization: e.target.value.split(',').map(s => s.trim()).filter(s => s) 
@@ -1825,7 +1874,12 @@ const Admin = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => deleteFacultyMember(faculty._id)}
+                          onClick={() => {
+                            console.log('Deleting faculty member:', faculty);
+                            console.log('Faculty ID:', faculty._id);
+                            console.log('Faculty object keys:', Object.keys(faculty));
+                            deleteFacultyMember(faculty._id);
+                          }}
                           className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg transition-colors text-sm"
                         >
                           Delete

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 
 const WorkingTerminal = () => {
   const navigate = useNavigate();
@@ -160,22 +161,127 @@ const WorkingTerminal = () => {
       'Want to contribute? Type "join" to learn how!'
     ],
     
-    events: () => [
-      '📅 Upcoming Events:',
-      '',
-      '🏆 Hackathons:',
-      '  • Winter Code Challenge 2024',
-      '  • Summer Innovation Hack',
-      '',
-      '🎯 Workshops:',
-      '  • React Fundamentals',
-      '  • Advanced Python',
-      '  • Cybersecurity 101',
-      '',
-      '🏅 Competitions:',
-      '  • Weekly Coding Challenges',
-      '  • Bug Bounty Programs'
-    ],
+    events: async () => {
+      try {
+        const response = await api.get('/events');
+        const events = response.data;
+        
+        if (events.length === 0) {
+          return [
+            '📅 Events Database:',
+            '',
+            '❌ No events found in database.',
+            '💡 Check back later for upcoming events!'
+          ];
+        }
+        
+        const result = [
+          '📅 Events from Database:',
+          '',
+          '🔍 Loading live data...',
+          ''
+        ];
+        
+        events.slice(0, 5).forEach((event, index) => {
+          const eventDate = new Date(event.date).toLocaleDateString();
+          result.push(`${index + 1}. ${event.title}`);
+          result.push(`   📅 Date: ${eventDate}`);
+          result.push(`   📍 Location: ${event.location || 'TBD'}`);
+          result.push('');
+        });
+        
+        result.push(`✨ Total events in database: ${events.length}`);
+        return result;
+      } catch (error) {
+        return [
+          '📅 Events Database:',
+          '',
+          '❌ Error fetching events from database.',
+          '🔧 Please check your connection and try again.'
+        ];
+      }
+    },
+    
+    team: async () => {
+      try {
+        const response = await api.get('/team');
+        const team = response.data;
+        
+        if (team.length === 0) {
+          return [
+            '👥 Team Database:',
+            '',
+            '❌ No team members found in database.',
+            '💡 Check back later!'
+          ];
+        }
+        
+        const result = [
+          '👥 Team Members from Database:',
+          '',
+          '🔍 Loading live data...',
+          ''
+        ];
+        
+        team.slice(0, 8).forEach((member, index) => {
+          result.push(`${index + 1}. ${member.name}`);
+          result.push(`   🎯 Role: ${member.role || 'Member'}`);
+          result.push(`   📧 Email: ${member.email || 'Not provided'}`);
+          result.push('');
+        });
+        
+        result.push(`✨ Total team members: ${team.length}`);
+        return result;
+      } catch (error) {
+        return [
+          '👥 Team Database:',
+          '',
+          '❌ Error fetching team from database.',
+          '🔧 Please check your connection and try again.'
+        ];
+      }
+    },
+    
+    faculty: async () => {
+      try {
+        const response = await api.get('/faculty');
+        const faculty = response.data;
+        
+        if (faculty.length === 0) {
+          return [
+            '👨‍🏫 Faculty Database:',
+            '',
+            '❌ No faculty members found in database.',
+            '💡 Check back later!'
+          ];
+        }
+        
+        const result = [
+          '👨‍🏫 Faculty Mentors from Database:',
+          '',
+          '🔍 Loading live data...',
+          ''
+        ];
+        
+        faculty.slice(0, 5).forEach((member, index) => {
+          result.push(`${index + 1}. ${member.name}`);
+          result.push(`   🎓 Designation: ${member.designation || 'Faculty'}`);
+          result.push(`   🏢 Department: ${member.department || 'Not specified'}`);
+          result.push(`   📧 Email: ${member.email || 'Not provided'}`);
+          result.push('');
+        });
+        
+        result.push(`✨ Total faculty mentors: ${faculty.length}`);
+        return result;
+      } catch (error) {
+        return [
+          '👨‍🏫 Faculty Database:',
+          '',
+          '❌ Error fetching faculty from database.',
+          '🔧 Please check your connection and try again.'
+        ];
+      }
+    },
     
     join: () => [
       '🔑 How to Join C Square Club',
@@ -323,13 +429,18 @@ const WorkingTerminal = () => {
     return '/' + parts.join('/');
   };
 
-  const executeCommand = (input) => {
+  const executeCommand = async (input) => {
     const parts = input.trim().split(' ');
     const command = parts[0].toLowerCase();
     const args = parts.slice(1);
 
     if (commands[command]) {
-      return commands[command](args);
+      try {
+        const result = await commands[command](args);
+        return result;
+      } catch (error) {
+        return [`Error executing command: ${error.message}`];
+      }
     } else if (command === '') {
       return [];
     } else {
@@ -337,18 +448,31 @@ const WorkingTerminal = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!currentInput.trim()) return;
 
     const prompt = `guest@c-square-club:${currentPath}$ ${currentInput}`;
-    const output = executeCommand(currentInput);
-
+    
+    // Add the input immediately
     setHistory(prev => [
       ...prev,
-      { type: 'input', text: prompt },
-      ...output.map(line => ({ type: 'output', text: line }))
+      { type: 'input', text: prompt }
     ]);
+
+    try {
+      const output = await executeCommand(currentInput);
+      
+      setHistory(prev => [
+        ...prev,
+        ...output.map(line => ({ type: 'output', text: line }))
+      ]);
+    } catch (error) {
+      setHistory(prev => [
+        ...prev,
+        { type: 'output', text: `Error: ${error.message}` }
+      ]);
+    }
 
     // Add to command history
     setCommandHistory(prev => [...prev, currentInput]);

@@ -46,7 +46,7 @@ class ErrorBoundary extends React.Component {
                 <pre className="text-xs text-gray-300 mt-2 overflow-auto">
                   {this.state.error && this.state.error.toString()}
                   <br />
-                  {this.state.errorInfo.componentStack}
+                  {this.state.errorInfo && this.state.errorInfo.componentStack}
                 </pre>
               </details>
             )}

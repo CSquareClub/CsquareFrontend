@@ -101,7 +101,7 @@ export default function EventsSection() {
             >
               <div className="w-full h-full bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col">
                 {/* Image */}
-                <div className="relative flex-[3] overflow-hidden">
+                <div className="relative flex-[2] overflow-hidden">
                   <img
                     src={event.img}
                     alt={event.title}
@@ -110,26 +110,26 @@ export default function EventsSection() {
                   <div className="absolute top-2 sm:top-3 right-2 sm:right-3 px-2 py-1 rounded-full text-[10px] sm:text-xs font-medium bg-green-500 text-white">
                     {event.tag}
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
                 </div>
 
                 {/* Details */}
-                <div className="flex-[1] p-3 sm:p-4 md:p-6 flex flex-col justify-between">
+                <div className="flex-[1.5] p-3 sm:p-4 md:p-6 flex flex-col justify-between">
                   <div className="text-xs sm:text-sm text-gray-600 mb-2 flex justify-between">
                     <span className="font-medium">{event.date}</span>
                     <span className="text-right text-gray-500 truncate ml-2">
-                      {event.title.substring(0, 10)}
+                      {event.title.substring(0, 12)}
                     </span>
                   </div>
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 line-clamp-2">
+                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 line-clamp-1">
                     {event.title}
                   </h3>
-                  <p className="text-gray-700 text-xs sm:text-sm mb-3 line-clamp-2 flex-grow">
+                  <p className="text-gray-700 text-xs sm:text-sm mb-3 line-clamp-3 flex-grow">
                     {event.desc}
                   </p>
                   <div className="mt-auto">
-                    <button className="w-full bg-gray-400 text-white rounded-md py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm md:text-base font-semibold cursor-not-allowed">
-                      Coming Soon
+                    <button className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white rounded-md py-2 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm md:text-base font-semibold transition-all duration-300 transform hover:scale-105">
+                      Learn More
                     </button>
                   </div>
                 </div>

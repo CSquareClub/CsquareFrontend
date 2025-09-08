@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { DataProvider } from './contexts/DataContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Events from './pages/Events';
@@ -13,6 +14,7 @@ import ToastNotification from './components/ToastNotification';
 import NotificationBar from './components/NotificationBar';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
+import ScrollToTop from './components/ScrollToTop';
 import './App.css';
 
 function App() {
@@ -38,30 +40,33 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <Router>
-        <div className="App">
-          <CustomCursor />
-          <ParticleBackground />
-          <EnhancedBackground />
-          
-          <ToastNotification />
-          {/* <NotificationBar /> */}
-          <Navbar />
-          
-          <main className="relative z-10">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/admin" element={<Admin />} />
-              <Route path="*" element={<Home />} />
-            </Routes>
-          </main>
-          
-          <Footer />
-        </div>
-      </Router>
+      <DataProvider>
+        <Router>
+          <div className="App">
+            <CustomCursor />
+            <ParticleBackground />
+            <EnhancedBackground />
+            
+            <ToastNotification />
+            {/* <NotificationBar /> */}
+            <Navbar />
+            
+            <main className="relative z-10">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="*" element={<Home />} />
+              </Routes>
+            </main>
+            
+            <Footer />
+            <ScrollToTop />
+          </div>
+        </Router>
+      </DataProvider>
     </ErrorBoundary>
   );
 }
