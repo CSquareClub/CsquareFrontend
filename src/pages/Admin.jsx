@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import api from '../utils/api';
 import ImageUpload from '../components/ImageUpload';
 import { useData } from '../contexts/DataContext';
+import AdminToastManager from '../components/AdminToastManager';
 
 const Admin = () => {
   const { 
@@ -834,6 +835,7 @@ const Admin = () => {
                   <p>Gallery Count: {galleryItems?.length || 0}</p>
                 </div>
               )}
+              <AdminToastManager />
               
               {/* Statistics Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

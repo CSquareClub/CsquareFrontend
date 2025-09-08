@@ -9,9 +9,9 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://csquarebackend-upd0.onrender.com',
+              target: 'https://csquarebackend-upd0.onrender.com',
         changeOrigin: true,
-        secure: true,
+              secure: false,
       },
     },
   },

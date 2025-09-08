@@ -58,7 +58,22 @@ const ToastNotification = () => {
       }
     };
 
-    fetchUpcomingEvent();
+      const fetchToast = async () => {
+        try {
+          const response = await api.get('/toast');
+          const activeToasts = response.data.data?.filter(t => t.isActive) || [];
+          const toastToShow = activeToasts.length > 0 ? activeToasts[0] : null;
+          setEvent(toastToShow);
+          if (toastToShow) {
+            setTimeout(() => setIsVisible(true), 3000);
+            setTimeout(() => setIsVisible(false), 13000);
+          }
+        } catch (error) {
+          console.error('Failed to fetch toast:', error);
+          setEvent(null);
+        }
+      };
+      fetchToast();
   }, []);
 
   const closeToast = () => {
@@ -86,19 +101,32 @@ const ToastNotification = () => {
           className="toast-notification fixed z-50"
         >
           <div className="bg-black bg-opacity-95 backdrop-blur-lg border-2 border-neon-cyan rounded-xl overflow-hidden shadow-2xl shadow-neon-cyan/20 h-72 sm:h-80 md:h-96 flex flex-col">
-            
-            {/* Event Image - Takes 2.5/4 (62.5%) of the space */}
+            {/* Toast or Event Image */}
             <div className="relative h-[62.5%] overflow-hidden">
-              <img 
-                src={event.image || '/api/placeholder/400/300'} 
-                alt={`${event.title} Banner`}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = '/api/placeholder/400/300';
-                }}
-              />
+              {event.link ? (
+                <a href={event.link} target="_blank" rel="noopener noreferrer">
+                  <img
+                    src={event.photo || event.image || '/api/placeholder/400/300'}
+                    alt={`${event.title || event.message || 'Toast'} Banner`}
+                    className="w-full h-full object-cover rounded-lg max-h-40 sm:max-h-56 md:max-h-64 cursor-pointer"
+                    style={{objectFit: 'cover'}}
+                    onError={(e) => {
+                      e.target.src = '/api/placeholder/400/300';
+                    }}
+                  />
+                </a>
+              ) : (
+                <img
+                  src={event.photo || event.image || '/api/placeholder/400/300'}
+                  alt={`${event.title || event.message || 'Toast'} Banner`}
+                  className="w-full h-full object-cover rounded-lg max-h-40 sm:max-h-56 md:max-h-64"
+                  style={{objectFit: 'cover'}}
+                  onError={(e) => {
+                    e.target.src = '/api/placeholder/400/300';
+                  }}
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-              
               {/* Close button on image */}
               <button
                 onClick={closeToast}
@@ -106,31 +134,41 @@ const ToastNotification = () => {
               >
                 ×
               </button>
-              
-              {/* Event badge on image */}
+              {/* Badge on image */}
               <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
                 <span className="text-neon-cyan text-xs font-medium bg-neon-cyan/20 backdrop-blur-sm px-2 py-1 rounded-full border border-neon-cyan/50">
-                  🎉 Upcoming Event
+                  {event.title ? '🎉 Upcoming Event' : '🔔 Toast Notification'}
                 </span>
               </div>
             </div>
-
-            {/* Content - Takes 1.5/4 (37.5%) of the space */}
+            {/* Content */}
             <div className="h-[37.5%] p-3 sm:p-4 flex flex-col justify-between">
               <div>
-                <h4 className="text-sm sm:text-lg font-orbitron font-bold text-white mb-1 line-clamp-1">
-                  {event.title}
+                <h4 className="text-sm sm:text-lg font-orbitron font-bold text-white mb-1 break-words whitespace-pre-line">
+                  {event.title || event.message}
                 </h4>
                 <div className="flex items-center justify-between text-xs text-gray-400">
-                  <span className="text-neon-magenta">
-                    {new Date(event.date).toLocaleDateString()}
-                  </span>
+                  {event.date ? (
+                    <span className="text-neon-magenta">
+                      {new Date(event.date).toLocaleDateString()}
+                    </span>
+                  ) : null}
                   {event.time && (
                     <span>⏰ {event.time}</span>
                   )}
                 </div>
+                {/* Optional link as text below message */}
+                {event.link && (
+                  <a
+                    href={event.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block mt-2 text-neon-cyan hover:text-cyan-300 text-xs sm:text-sm font-semibold underline"
+                  >
+                    {event.linkText || event.link}
+                  </a>
+                )}
               </div>
-              
               {/* CTA Button */}
               <button
                 onClick={scrollToEvents}
@@ -140,7 +178,6 @@ const ToastNotification = () => {
               </button>
             </div>
           </div>
-
           {/* Glow Effect */}
           <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-neon-cyan/20 to-neon-magenta/20 -z-10 blur-xl"></div>
         </motion.div>

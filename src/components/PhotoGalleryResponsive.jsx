@@ -115,10 +115,15 @@ const PhotoGallery = () => {
               <img
                 src={image.src}
                 alt={image.caption}
-                className="gallery-image w-full h-64 object-cover"
+                className="gallery-image w-full h-96 sm:h-[32rem] object-cover object-center"
                 style={{
                   borderRadius: '18px',
-                  transition: 'transform 0.3s ease'
+                  aspectRatio: '16/9',
+                  maxHeight: '100%',
+                  width: '100%',
+                  height: '100%',
+                  display: 'block',
+                  background: '#222',
                 }}
               />
               <div 
