@@ -3,7 +3,7 @@ import Achievements from '../components/sections/Achievements';
 import EventsSectionHorizontal from '../components/sections/EventsSectionHorizontal';
 import TeamSectionHorizontal from '../components/sections/TeamSectionHorizontal';
 import FacultyMentorsSection from '../components/sections/FacultyMentorsSection';
-import PhotoGalleryResponsive from '../components/PhotoGalleryResponsive';
+// import PhotoGalleryResponsive from '../components/PhotoGalleryResponsive';
 
 const Home = () => {
   return (
@@ -11,18 +11,20 @@ const Home = () => {
       <Hero />
       <Achievements />
       
-      {/* Photo Gallery Section */}
+      {/* Photo Gallery Section
       <section className="py-20 relative overflow-hidden">
         <div className="container-custom">
           <PhotoGalleryResponsive />
         </div>
-      </section>
+      </section> */}
       
-  <div id="events">
+  <div id="events" className="mb-16 lg:mb-24">
     <EventsSectionHorizontal />
   </div>
-  <FacultyMentorsSection />
-  <div id="team">
+  <div className="mb-16 lg:mb-24">
+    <FacultyMentorsSection />
+  </div>
+  <div id="team" className="mb-16 lg:mb-24">
     <TeamSectionHorizontal />
   </div>
     </div>

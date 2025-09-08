@@ -70,20 +70,22 @@ const PhotoGallery = () => {
   }
 
   return (
-    <div className="photo-gallery-container relative">
-      {/* Swiper Gallery */}
-      <div 
-        className="photo-gallery overflow-hidden"
-        style={{
-          borderRadius: '20px',
-          boxShadow: '0 0 30px rgba(0, 255, 255, 0.3)',
-          border: '2px solid transparent',
-          background: 'linear-gradient(45deg, #00ffff, #ff00ff) border-box'
-        }}
-      >
+    // Hide gallery on very small devices, show on md and above
+    <div className="hidden md:block">
+      <div className="photo-gallery-container relative">
+        {/* Swiper Gallery */}
+        <div 
+          className="photo-gallery overflow-hidden mx-auto max-w-4xl"
+          style={{
+            borderRadius: '20px',
+            boxShadow: '0 0 30px rgba(0, 255, 255, 0.3)',
+            border: '2px solid transparent',
+            background: 'linear-gradient(45deg, #00ffff, #ff00ff) border-box'
+          }}
+        >
         <Swiper
           modules={[Navigation, Pagination, Autoplay, Mousewheel]}
-          loop={true}
+          loop={galleryImages.length > 1} // Only enable loop if we have more than 1 image
           speed={700}
           spaceBetween={0}
           slidesPerView={1}
@@ -92,11 +94,11 @@ const PhotoGallery = () => {
             sensitivity: 1,
             releaseOnEdges: false,
           }}
-          autoplay={{
+          autoplay={galleryImages.length > 1 ? { // Only enable autoplay if we have more than 1 image
             delay: 3500,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
-          }}
+          } : false}
           pagination={{
             clickable: true,
             dynamicBullets: true,
@@ -132,18 +134,19 @@ const PhotoGallery = () => {
 
         {/* Custom Navigation Arrows */}
         <button
-          className="gallery-button-prev absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/80 border-2 border-neon-cyan rounded-full text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all duration-300 z-10 items-center justify-center text-xl font-bold hidden md:flex"
+          className="gallery-button-prev absolute left-1 sm:left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/80 border-2 border-neon-cyan rounded-full text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all duration-300 z-10 flex items-center justify-center text-lg sm:text-xl font-bold"
         >
           ‹
         </button>
         <button
-          className="gallery-button-next absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 bg-black/80 border-2 border-neon-cyan rounded-full text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all duration-300 z-10 items-center justify-center text-xl font-bold hidden md:flex"
+          className="gallery-button-next absolute right-1 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/80 border-2 border-neon-cyan rounded-full text-neon-cyan hover:bg-neon-cyan hover:text-black transition-all duration-300 z-10 flex items-center justify-center text-lg sm:text-xl font-bold"
         >
           ›
         </button>
 
         {/* Custom Pagination */}
         <div className="gallery-pagination flex justify-center mt-4"></div>
+      </div>
       </div>
     </div>
   );

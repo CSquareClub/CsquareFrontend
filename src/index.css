@@ -355,6 +355,53 @@
       min-height: auto;
       max-height: 300px;
     }
+
+    /* Ensure all sections are visible on mobile */
+    section {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    /* Center events track on mobile */
+    .events-track {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      justify-content: center;
+    }
+
+    /* Ensure event cards are properly sized */
+    .event-card {
+      min-width: 280px;
+      max-width: 320px;
+    }
+  }
+
+  /* Extra small devices */
+  @media (max-width: 640px) {
+    .container-custom {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* Ensure events section is centered on very small devices */
+    .events-track {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .event-card {
+      min-width: 260px;
+      max-width: 280px;
+    }
+  }
+
+  /* Specific breakpoint for 550px */
+  @media (max-width: 550px) {
+    .event-card {
+      min-width: 250px;
+      max-width: 270px;
+    }
   }
 }
 
@@ -440,4 +487,29 @@
 
 .carousel-container .swiper-wrapper:active {
   cursor: grabbing;
+}
+
+/* Custom notification positioning for 360px breakpoint */
+@media (min-width: 360px) {
+  .toast-notification {
+    top: 5rem !important;
+    right: 1rem !important;
+    left: auto !important;
+    transform: none !important;
+    width: 20rem !important;
+    margin: 0 !important;
+  }
+}
+
+/* Ensure center positioning for very small screens */
+@media (max-width: 359px) {
+  .toast-notification {
+    top: 4rem !important;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    width: 90vw !important;
+    max-width: 18rem !important;
+    margin: 0 0.5rem !important;
+  }
 }

@@ -29,7 +29,7 @@ const Events = () => {
 
   return (
     <div className="min-h-screen pt-32">
-      <div className="container-custom">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,11 +40,11 @@ const Events = () => {
           </h1>
 
           {/* Tabs */}
-          <div className="flex justify-center mb-12">
-            <div className="flex space-x-4">
+          <div className="flex justify-center mb-8 sm:mb-12">
+            <div className="flex space-x-2 sm:space-x-4">
               <button
                 onClick={() => setActiveTab('upcoming')}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
                   activeTab === 'upcoming'
                     ? 'bg-gradient-to-r from-neon-cyan to-neon-magenta text-black'
                     : 'border-2 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black'
@@ -54,7 +54,7 @@ const Events = () => {
               </button>
               <button
                 onClick={() => setActiveTab('past')}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full font-medium text-sm sm:text-base transition-all duration-300 ${
                   activeTab === 'past'
                     ? 'bg-gradient-to-r from-neon-cyan to-neon-magenta text-black'
                     : 'border-2 border-neon-cyan text-neon-cyan hover:bg-neon-cyan hover:text-black'
@@ -81,14 +81,14 @@ const Events = () => {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
               {filteredEvents.map((event, index) => (
                 <motion.div
                   key={event._id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-gray-900 to-black border border-gray-700 rounded-xl overflow-hidden hover:border-neon-cyan/50 transition-all duration-300 hover:scale-105 group h-96 flex flex-col"
+                  className="bg-gradient-to-br from-gray-900 to-black border border-gray-700 rounded-xl overflow-hidden hover:border-neon-cyan/50 transition-all duration-300 hover:scale-105 group h-80 sm:h-96 flex flex-col"
                 >
                   {/* Event Image - Takes 3/4 of the space */}
                   <div className="relative h-3/4 overflow-hidden">
@@ -111,9 +111,9 @@ const Events = () => {
                   </div>
                   
                   {/* Text Content - Takes 1/4 of the space */}
-                  <div className="h-1/4 p-4 flex flex-col justify-between">
+                  <div className="h-1/4 p-3 sm:p-4 flex flex-col justify-between">
                     <div>
-                      <h3 className="text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
+                      <h3 className="text-sm sm:text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
                         {event.title}
                       </h3>
                       <div className="flex items-center justify-between text-xs text-gray-400">
@@ -125,7 +125,7 @@ const Events = () => {
                             <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                             </svg>
-                            {event.location}
+                            <span className="truncate max-w-20 sm:max-w-none">{event.location}</span>
                           </span>
                         )}
                       </div>

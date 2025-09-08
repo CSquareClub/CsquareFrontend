@@ -28,7 +28,7 @@ const TeamSection = () => {
     <motion.div
       key={member._id}
       onClick={() => setSelectedMember(member)}
-      className="flex-shrink-0 w-80 cursor-pointer group h-96 flex flex-col"
+      className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] cursor-pointer group h-[350px] sm:h-[370px] md:h-[400px] flex flex-col mx-auto"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
@@ -51,8 +51,8 @@ const TeamSection = () => {
           
           {/* Core Badge on image */}
           {member.isCore && (
-            <div className="absolute top-3 left-3 z-10">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-neon-magenta/90 text-white text-xs font-medium backdrop-blur-sm">
+            <div className="absolute top-2 sm:top-3 left-2 sm:left-3 z-10">
+              <div className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full bg-neon-magenta/90 text-white text-xs font-medium backdrop-blur-sm">
                 ⭐ Core Member
               </div>
             </div>
@@ -60,12 +60,12 @@ const TeamSection = () => {
         </div>
 
         {/* Text Content - Takes 1/4 of the space */}
-        <div className="h-1/4 p-4 flex flex-col justify-between">
+        <div className="h-1/4 p-3 sm:p-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-magenta transition-colors line-clamp-1">
+            <h3 className="text-base sm:text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-magenta transition-colors line-clamp-1">
               {member.name}
             </h3>
-            <p className="text-neon-cyan text-sm font-medium line-clamp-1">
+            <p className="text-neon-cyan text-xs sm:text-sm font-medium line-clamp-1">
               {member.position}
             </p>
             {member.specialization && (
@@ -82,7 +82,7 @@ const TeamSection = () => {
   if (loading) {
     return (
       <section id="team" className="py-20 relative overflow-hidden">
-        <div className="container-custom">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-neon-magenta"></div>
             <p className="text-gray-300 mt-4">Loading team members...</p>
@@ -99,7 +99,7 @@ const TeamSection = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-neon-cyan/5 via-transparent to-neon-magenta/5"></div>
       </div>
 
-      <div className="container-custom relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -122,6 +122,7 @@ const TeamSection = () => {
             renderItem={renderTeamCard}
             autoSlide={true}
             slideInterval={5000}
+            itemsPerView={{ mobile: 1, tablet: 2, desktop: 4 }} // Increased desktop to 4
             className="mb-8"
           />
         ) : (

@@ -48,7 +48,7 @@ function App() {
             <EnhancedBackground />
             
             <ToastNotification />
-            {/* <NotificationBar /> */}
+            <NotificationBar />
             <Navbar />
             
             <main className="relative z-10">

@@ -75,8 +75,8 @@ const PhotoGallery = () => {
   if (loading) {
     return (
       <div 
-        className="photo-gallery-container relative"
-        // style={{ minHeight: '500px' }}
+        className="photo-gallery-container relative "
+        style={{ minHeight: '500px' }}
       >
         <div className="flex items-center justify-center h-96">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-neon-cyan"></div>
@@ -86,11 +86,13 @@ const PhotoGallery = () => {
   }
 
   return (
-    <div 
-      className="photo-gallery-container relative"
-      // style={{ minHeight: '500px' }}
-    >
-      <div className="gallery-slider-wrapper relative flex items-center gap-8">
+    // Hide gallery on small devices (below md breakpoint) 
+    <div className="hidden md:block">
+      <div 
+        className="photo-gallery-container relative w-full "
+        
+      >
+        <div className="gallery-slider-wrapper relative flex items-center gap-8 justify-center">
         {/* Previous Button - Hidden on mobile */}
         <button
           onClick={prevSlide}
@@ -118,7 +120,7 @@ const PhotoGallery = () => {
 
         {/* Gallery Container */}
         <div 
-          className="photo-gallery overflow-hidden flex-1 relative md:block"
+          className="photo-gallery overflow-hidden relative w-[80vw] aspect-[16/9]"
           style={{
             borderRadius: '20px',
             boxShadow: '0 0 30px rgba(0, 255, 255, 0.3)',
@@ -142,7 +144,7 @@ const PhotoGallery = () => {
                 <img
                   src={image.src}
                   alt={image.caption}
-                  className="gallery-image w-full h-64 object-cover"
+                  className="gallery-image w-full h-[300px] sm:h-[350px] object-cover"
                   style={{
                     borderRadius: '18px',
                     transition: 'transform 0.3s ease'
@@ -181,10 +183,9 @@ const PhotoGallery = () => {
                 <img
                   src={image.src}
                   alt={image.caption}
-                  className="gallery-image"
+                  className="gallery-image w-full h-full object-cover"
                   style={{
                     width: '100%',
-                    height: '400px',
                     objectFit: 'cover',
                     borderRadius: '18px',
                     transition: 'transform 0.3s ease'
@@ -262,6 +263,7 @@ const PhotoGallery = () => {
             }}
           />
         ))}
+      </div>
       </div>
     </div>
   );

@@ -31,7 +31,7 @@ const EventsSectionHorizontal = () => {
     <motion.div
       key={event._id}
       onClick={() => setSelectedEvent(event)}
-      className="flex-shrink-0 w-80 cursor-pointer group h-96 flex flex-col"
+      className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] cursor-pointer group h-80 sm:h-96 flex flex-col"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
@@ -60,15 +60,15 @@ const EventsSectionHorizontal = () => {
         </div>
 
         {/* Text Content - Takes 1/4 of the space */}
-        <div className="h-1/4 p-4 flex flex-col justify-between">
+        <div className="h-1/4 p-3 sm:p-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
+            <h3 className="text-sm sm:text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
               {event.title}
             </h3>
             <div className="flex items-center justify-between text-xs text-gray-400">
               {event.location && (
-                <span className="flex items-center">
-                  📍 {event.location}
+                <span className="flex items-center truncate max-w-32">
+                  📍 <span className="truncate">{event.location}</span>
                 </span>
               )}
               {event.time && (
@@ -86,7 +86,7 @@ const EventsSectionHorizontal = () => {
   if (loading) {
     return (
       <section id="events" className="py-20 relative overflow-hidden">
-        <div className="container-custom">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-neon-cyan"></div>
             <p className="text-gray-300 mt-4">Loading events...</p>
@@ -103,7 +103,7 @@ const EventsSectionHorizontal = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-neon-magenta/10 via-transparent to-neon-cyan/10"></div>
       </div>
 
-      <div className="container-custom relative z-10">
+      <div className="container mx-auto relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -125,14 +125,14 @@ const EventsSectionHorizontal = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex justify-center mb-12"
+          className="flex justify-center mb-8 sm:mb-12"
         >
-          <div className="flex bg-black/30 rounded-xl p-2 border border-gray-700">
+          <div className="flex bg-black/30 rounded-xl p-1 sm:p-2 border border-gray-700">
             {['upcoming', 'past'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 capitalize ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium text-sm sm:text-base transition-all duration-300 capitalize ${
                   activeTab === tab
                     ? 'bg-neon-cyan text-black shadow-lg shadow-neon-cyan/25'
                     : 'text-gray-400 hover:text-white hover:bg-gray-800/50'

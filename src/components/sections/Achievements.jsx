@@ -15,28 +15,10 @@ const Achievements = () => {
       stats: '400+ Members'
     },
     {
-      icon: '🎯',
-      title: 'Projects Completed',
-      description: 'Real-world projects solving actual problems',
-      stats: '10+ Projects'
-    },
-    {
       icon: '🎓',
       title: 'Workshops Conducted',
       description: 'Educational sessions covering latest technologies',
       stats: '30+ Sessions'
-    },
-    {
-      icon: '🤝',
-      title: 'Industry Partners',
-      description: 'Collaborations with leading tech companies',
-      stats: '25+ Partners'
-    },
-    {
-      icon: '💡',
-      title: 'Innovation Score',
-      description: 'Recognition for cutting-edge research and development',
-      stats: '95% Rating'
     }
   ];
 
@@ -47,7 +29,7 @@ const Achievements = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-neon-cyan/5 via-transparent to-neon-magenta/5"></div>
       </div>
 
-      <div className="container-custom relative z-10">
+      <div className="container mx-auto relative z-10 px-4 sm:px-6 lg:px-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

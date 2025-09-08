@@ -22,10 +22,10 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
   if (!data) return null;
 
   const renderTeamMember = () => (
-    <div className="flex flex-col lg:flex-row gap-8">
+    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
       {/* Image Section */}
       <div className="flex-shrink-0">
-        <div className="w-48 h-48 mx-auto rounded-full border-4 border-neon-cyan overflow-hidden bg-gradient-to-r from-neon-cyan to-neon-magenta">
+        <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mx-auto rounded-full border-4 border-neon-cyan overflow-hidden bg-gradient-to-r from-neon-cyan to-neon-magenta">
           {data.photo ? (
             <img
               src={data.photo}
@@ -38,7 +38,7 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
             />
           ) : null}
           <div 
-            className={`${data.photo ? 'hidden' : 'flex'} items-center justify-center w-full h-full text-4xl font-bold text-black`}
+            className={`${data.photo ? 'hidden' : 'flex'} items-center justify-center w-full h-full text-2xl sm:text-3xl lg:text-4xl font-bold text-black`}
           >
             {data.initials}
           </div>
@@ -46,15 +46,15 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
       </div>
 
       {/* Content Section */}
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 space-y-4 lg:space-y-6">
         <div>
-          <h2 className="text-3xl font-orbitron font-bold text-white mb-2">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-orbitron font-bold text-white mb-2">
             {data.name}
           </h2>
-          <p className="text-xl text-neon-magenta font-medium mb-4">
+          <p className="text-lg sm:text-xl text-neon-magenta font-medium mb-4">
             {data.position}
           </p>
-          <p className="text-gray-300 leading-relaxed text-lg">
+          <p className="text-gray-300 leading-relaxed text-sm sm:text-base lg:text-lg">
             {data.bio}
           </p>
         </div>
@@ -62,12 +62,12 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
         {/* Skills */}
         {data.skills && data.skills.length > 0 && (
           <div>
-            <h4 className="text-lg font-bold text-white mb-3">Skills</h4>
+            <h4 className="text-base sm:text-lg font-bold text-white mb-3">Skills</h4>
             <div className="flex flex-wrap gap-2">
               {data.skills.map((skill, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-neon-cyan/20 border border-neon-cyan rounded-full text-sm text-neon-cyan"
+                  className="px-2 sm:px-3 py-1 bg-neon-cyan/20 border border-neon-cyan rounded-full text-xs sm:text-sm text-neon-cyan"
                 >
                   {skill}
                 </span>
@@ -78,12 +78,12 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
 
         {/* Social Links */}
         <div>
-          <h4 className="text-lg font-bold text-white mb-4">Connect</h4>
-          <div className="flex space-x-4">
+          <h4 className="text-base sm:text-lg font-bold text-white mb-4">Connect</h4>
+          <div className="flex flex-wrap gap-2 sm:space-x-4 sm:gap-0">
             {data.email && (
               <a
                 href={`mailto:${data.email}`}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-xs sm:text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -94,7 +94,7 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
             {data.linkedin && (
               <a
                 href={data.linkedin}
-                className="flex items-center space-x-2 px-4 py-2 bg-blue-700 hover:bg-blue-800 rounded-lg transition-colors"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-blue-700 hover:bg-blue-800 rounded-lg transition-colors text-xs sm:text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -105,7 +105,7 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
             {data.github && (
               <a
                 href={data.github}
-                className="flex items-center space-x-2 px-4 py-2 bg-gray-800 hover:bg-gray-900 rounded-lg transition-colors"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-gray-800 hover:bg-gray-900 rounded-lg transition-colors text-xs sm:text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -116,7 +116,7 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
             {data.portfolio && (
               <a
                 href={data.portfolio}
-                className="flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors"
+                className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-purple-600 hover:bg-purple-700 rounded-lg transition-colors text-xs sm:text-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -131,10 +131,10 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
   );
 
   const renderFacultyMember = () => (
-    <div className="flex flex-col lg:flex-row gap-8">
+    <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
       {/* Image Section */}
       <div className="flex-shrink-0">
-        <div className="w-48 h-48 mx-auto rounded-full border-4 border-neon-cyan overflow-hidden">
+        <div className="w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48 mx-auto rounded-full border-4 border-neon-cyan overflow-hidden">
           {data.photo ? (
             <img
               src={data.photo}
@@ -142,7 +142,7 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="w-full h-full bg-gradient-to-r from-neon-cyan to-neon-magenta flex items-center justify-center text-4xl font-bold text-black">
+            <div className="w-full h-full bg-gradient-to-r from-neon-cyan to-neon-magenta flex items-center justify-center text-2xl sm:text-3xl lg:text-4xl font-bold text-black">
               {data.name?.charAt(0)}
             </div>
           )}
@@ -150,36 +150,36 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
       </div>
 
       {/* Content Section */}
-      <div className="flex-1 space-y-6">
+      <div className="flex-1 space-y-4 lg:space-y-6">
         <div>
-          <h2 className="text-3xl font-orbitron font-bold text-white mb-2">
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-orbitron font-bold text-white mb-2">
             {data.name}
           </h2>
-          <p className="text-xl text-neon-magenta font-medium mb-2">
+          <p className="text-lg sm:text-xl text-neon-magenta font-medium mb-2">
             {data.designation}
           </p>
-          <p className="text-lg text-gray-300 mb-4">
+          <p className="text-base sm:text-lg text-gray-300 mb-4">
             {data.department}
           </p>
           {data.bio && (
-            <p className="text-gray-300 leading-relaxed text-lg">
+            <p className="text-gray-300 leading-relaxed text-sm sm:text-base lg:text-lg">
               {data.bio}
             </p>
           )}
         </div>
 
         {/* Experience & Education */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
           {data.experience && (
             <div>
-              <h4 className="text-lg font-bold text-white mb-2">Experience</h4>
-              <p className="text-gray-300">{data.experience}</p>
+              <h4 className="text-base sm:text-lg font-bold text-white mb-2">Experience</h4>
+              <p className="text-gray-300 text-sm sm:text-base">{data.experience}</p>
             </div>
           )}
           {data.education && (
             <div>
-              <h4 className="text-lg font-bold text-white mb-2">Education</h4>
-              <p className="text-gray-300">{data.education}</p>
+              <h4 className="text-base sm:text-lg font-bold text-white mb-2">Education</h4>
+              <p className="text-gray-300 text-sm sm:text-base">{data.education}</p>
             </div>
           )}
         </div>
@@ -187,12 +187,12 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
         {/* Specialization */}
         {data.specialization && data.specialization.length > 0 && (
           <div>
-            <h4 className="text-lg font-bold text-white mb-3">Specialization</h4>
+            <h4 className="text-base sm:text-lg font-bold text-white mb-3">Specialization</h4>
             <div className="flex flex-wrap gap-2">
               {data.specialization.map((spec, index) => (
                 <span
                   key={index}
-                  className="px-3 py-1 bg-neon-cyan/20 border border-neon-cyan rounded-full text-sm text-neon-cyan"
+                  className="px-2 sm:px-3 py-1 bg-neon-cyan/20 border border-neon-cyan rounded-full text-xs sm:text-sm text-neon-cyan"
                 >
                   {spec}
                 </span>
@@ -324,7 +324,7 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
           onClick={onClose}
         >
           {/* Backdrop */}
@@ -336,20 +336,20 @@ const DetailModal = ({ isOpen, onClose, data, type }) => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-black/90 backdrop-blur-md border-2 border-gray-700 rounded-2xl p-6 lg:p-8"
+            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-black/90 backdrop-blur-md border-2 border-gray-700 rounded-2xl p-4 sm:p-6 lg:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center bg-gray-800 hover:bg-gray-700 rounded-full text-white transition-colors"
+              className="absolute top-2 sm:top-4 right-2 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-gray-800 hover:bg-gray-700 rounded-full text-white transition-colors text-sm sm:text-base"
               title="Close"
             >
               ✕
             </button>
 
             {/* Content */}
-            <div className="pr-12">
+            <div className="pr-8 sm:pr-12">
               {renderContent()}
             </div>
           </motion.div>

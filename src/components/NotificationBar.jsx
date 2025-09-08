@@ -19,7 +19,7 @@ const NotificationBar = () => {
         backdropFilter: 'blur(10px)'
       }}
     >
-      <div className="max-w-screen-2xl mx-auto px-12 py-2 flex items-center gap-4">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-12 py-2 flex items-center gap-2 sm:gap-4">
         <div 
           className="w-2 h-2 rounded-full flex-shrink-0"
           style={{
@@ -29,11 +29,11 @@ const NotificationBar = () => {
           }}
         ></div>
         <span 
-          className="font-orbitron text-sm tracking-wider whitespace-nowrap overflow-hidden text-ellipsis"
+          className="font-orbitron text-xs sm:text-sm tracking-wider whitespace-nowrap overflow-hidden text-ellipsis"
           style={{ 
             color: '#cfffff',
             letterSpacing: '1px',
-            fontSize: '0.95rem'
+            fontSize: 'clamp(0.75rem, 2vw, 0.95rem)'
           }}
         >
           🚀 Welcome to C-Square Club — Join our coding community and build the future together!
