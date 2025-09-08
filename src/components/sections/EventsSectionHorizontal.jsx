@@ -31,7 +31,7 @@ const EventsSectionHorizontal = () => {
     <motion.div
       key={event._id}
       onClick={() => setSelectedEvent(event)}
-      className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] cursor-pointer group h-80 sm:h-96 flex flex-col"
+      className="flex-shrink-0 w-[280px] sm:w-[300px] md:w-[320px] cursor-pointer group h-[350px] sm:h-[370px] md:h-[400px] flex flex-col mx-auto"
       whileHover={{ scale: 1.02 }}
       transition={{ duration: 0.3 }}
     >
@@ -49,8 +49,8 @@ const EventsSectionHorizontal = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           
           {/* Date Badge on image */}
-          <div className="absolute top-3 left-3">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-neon-cyan/90 text-black text-xs font-medium backdrop-blur-sm">
+          <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
+            <div className="inline-flex items-center px-2 sm:px-3 py-1 rounded-full bg-neon-cyan/90 text-black text-xs font-medium backdrop-blur-sm">
               📅 {new Date(event.date).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric'
@@ -62,10 +62,10 @@ const EventsSectionHorizontal = () => {
         {/* Text Content - Takes 1/4 of the space */}
         <div className="h-1/4 p-3 sm:p-4 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm sm:text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
+            <h3 className="text-base sm:text-lg font-orbitron font-bold text-white mb-1 group-hover:text-neon-cyan transition-colors line-clamp-1">
               {event.title}
             </h3>
-            <div className="flex items-center justify-between text-xs text-gray-400">
+            <div className="flex items-center justify-between text-xs sm:text-sm text-gray-400">
               {event.location && (
                 <span className="flex items-center truncate max-w-32">
                   📍 <span className="truncate">{event.location}</span>
