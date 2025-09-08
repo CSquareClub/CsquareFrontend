@@ -76,10 +76,10 @@ const WorkingTerminal = () => {
       '  code        - Random code snippet',
       '  fortune     - Get a coding fortune',
       '',
-      '� Secret Commands:',
-      '  admin       - Access administrative portal',
-      '',
-      '�💡 Tip: Tab completion coming soon!'
+      // '� Secret Commands:',
+      // '  admin       - Access administrative portal',
+      // '',
+      // '�💡 Tip: Tab completion coming soon!'
     ],
     
     ls: (args) => {
